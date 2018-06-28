@@ -37,7 +37,7 @@ let gameJs = cc.Class({
     },
 
     spawnNewBalls() {
-        for (let i = 0; i <this.spawnRate; i++) {
+        for (let i = 0; i <2; i++) {
             //let index = Math.floor(cc.random0To1() * this.ballPrefabs.length);
             var newBall = cc.instantiate(this.ballPrefabs[i]);
             this.balls.push(newBall);
@@ -52,7 +52,6 @@ let gameJs = cc.Class({
     },
 
     getNewBallPosition() {
-        //400,220
         var randX = cc.random0To1() * this.areaX;
         var randY = cc.random0To1() * this.areaY;           
         return cc.p(randX, randY);
