@@ -114,10 +114,10 @@
     "tag": 0,
     "_offset": {
       "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
+      "x": 48,
+      "y": 48
     },
-    "_radius": 49
+    "_radius": 48
   },
   {
     "__type__": "cc.PrefabInfo",

@@ -56,8 +56,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -264,
-      "y": -203
+      "x": -263,
+      "y": -199
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -101,9 +101,7 @@
     },
     "_enabled": true,
     "speedX": 33,
-    "speedY": 22,
-    "areaX": 800,
-    "areaY": 450
+    "speedY": 22
   },
   {
     "__type__": "cc.CircleCollider",
@@ -116,10 +114,10 @@
     "tag": 0,
     "_offset": {
       "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
+      "x": 48,
+      "y": 48
     },
-    "_radius": 49.1
+    "_radius": 48
   },
   {
     "__type__": "cc.PrefabInfo",
