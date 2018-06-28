@@ -32,25 +32,27 @@ cc.Class({
         this.node.x += this.speedX * dt;
         this.node.y += this.speedY * dt;
 
-        if(this.node.x >= this.areaX || this.node.x <= 0 ){
-            this.speedX *= -1;            
-        }
+        // if(this.node.x >= this.areaX || this.node.x <= 0 ){
+        //     this.speedX *= -1;            
+        // }
 
-        if(this.node.y >= this.areaY || this.node.y <= 0 ){
-            this.speedY *= -1;            
-        }
+        // if(this.node.y >= this.areaY || this.node.y <= 0 ){
+        //     this.speedY *= -1;            
+        // }
     },
 
     onCollisionEnter(other,self){
-        console.log('on collision enter');
         
         if(0 === other.tag){
+            console.log('on collision ball enter');
             //  ball-ball            
             this.speedX *= -1;
             this.speedY *= -1;            
         } else if(1 === other.tag){
             // wall
-            
+            console.log('on collision wall enter');
+            this.speedX *= -1;
+            this.speedY *= -1;
         }
     },
 });
