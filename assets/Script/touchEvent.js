@@ -37,6 +37,19 @@ cc.Class({
 
                 if (true == rect.contains(point)) {
                     console.log('hit ball:' + i);
+
+                    // 禁用ball关联的ball.js脚本
+                    //ball.getComponent('ball').enabled = false;
+
+                    var goals = this.gameJs.goals;
+                    for(let j = 0; j < goals.length; j++){
+                        if(ball.getComponent(cc.Sprite).spriteFrame === 
+                            goals[j].ball.getComponent(cc.Sprite).spriteFrame)
+                        {
+                            console.log('hit the goal!');
+                            break;
+                        }
+                    }
                 }
             }
 
