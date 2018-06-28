@@ -1,14 +1,6 @@
-// Learn cc.Class:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/class.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/class.html
-// Learn Attribute:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
-
-let gameJs = cc.Class({
+window.levelDatas=require('LevelData');
+window.level
+let gameJs=cc.Class({
     extends: cc.Component,
 
     properties: {
@@ -33,6 +25,8 @@ let gameJs = cc.Class({
         //manager.enabledDrawBoundingBox = true;
 
         // 加载关卡数据
+        window.currLevel=this.levelId;
+        window.Score=0;
 
         // 数组保存ball引用
         this.balls = new Array();
@@ -40,6 +34,13 @@ let gameJs = cc.Class({
 
         this.spawnNewGoal(1);
         this.spawnNewBalls();
+    },
+    changeLevel(){
+            let level=1000+this.levelId;
+            let levelData=window.levelDatas.getLevelById(level);
+            this.spawnRate=levelData.ballNum;
+
+        
     },
 
     spawnNewGoal(num){
@@ -107,5 +108,4 @@ let gameJs = cc.Class({
     },
     // update (dt) {},
 });
-
-module.exports = gameJs;
+module.export=gameJs;
