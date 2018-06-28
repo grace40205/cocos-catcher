@@ -12,8 +12,8 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        xSpeed:0,
-        ySpeed:0,
+        speedX:0,
+        speedY:0,
         areaX:0,
         areaY:0,
     },
@@ -29,15 +29,15 @@ cc.Class({
     },
 
     update (dt) {
-        this.node.x += this.xSpeed * dt;
-        this.node.y += this.ySpeed * dt;
+        this.node.x += this.speedX * dt;
+        this.node.y += this.speedY * dt;
 
         if(this.node.x >= this.areaX || this.node.x <= 0 ){
-            this.xSpeed *= -1;            
+            this.speedX *= -1;            
         }
 
         if(this.node.y >= this.areaY || this.node.y <= 0 ){
-            this.ySpeed *= -1;            
+            this.speedY *= -1;            
         }
     },
 
@@ -46,8 +46,8 @@ cc.Class({
         
         if(0 === other.tag){
             //  ball-ball            
-            this.xSpeed *= -1;
-            this.ySpeed *= -1;            
+            this.speedX *= -1;
+            this.speedY *= -1;            
         } else if(1 === other.tag){
             // wall
             

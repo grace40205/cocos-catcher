@@ -48,10 +48,7 @@ cc.Class({
 
     getNewBallPosition() {
         var randX = cc.random0To1() * this.areaX;
-        var randY = cc.random0To1() * this.areaY;    
-        
-        // var randX = 300;
-        // var randY = 300;
+        var randY = cc.random0To1() * this.areaY;           
         return cc.p(randX, randY);
     },
     // update (dt) {},

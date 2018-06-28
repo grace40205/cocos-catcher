@@ -155,7 +155,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": -480,
-      "y": -320
+      "y": -316
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -173,7 +173,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "54af1581-0aef-4053-9e60-f8eec9626490"
+      "__uuid__": "24f0ff57-bcea-4cdc-bac7-4826cc3df3eb"
     },
     "_type": 0,
     "_sizeMode": 0,

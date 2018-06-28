@@ -100,8 +100,8 @@
       "__id__": 1
     },
     "_enabled": true,
-    "xSpeed": 200,
-    "ySpeed": -50,
+    "speedX": 22,
+    "speedY": 55,
     "areaX": 800,
     "areaY": 450
   },
