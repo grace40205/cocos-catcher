@@ -35,7 +35,7 @@ cc.Class({
     spawnNewBalls() {
         for (let i = 0; i <2; i++) {
             //let index = Math.floor(cc.random0To1() * this.ballPrefabs.length);
-            var newBall = cc.instantiate(this.ballPrefabs[index]);
+            var newBall = cc.instantiate(this.ballPrefabs[i]);
 
             newBall.parent = this.node.getChildByName('ballMgr');
             newBall.setPosition(this.getNewBallPosition());
