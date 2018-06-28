@@ -17,10 +17,20 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-        this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
+        //this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
+            // mouse down
+            // 获取鼠标位置的ball
+        //     console.log('on touch:' + event.getLocationX() + ',' + event.getLocationY());
+
+            
+        //   }, this);
+          this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
             // mouse down
             // 获取鼠标位置的ball
             console.log('on touch:' + event.getLocationX() + ',' + event.getLocationY());
+            let current=getCurrentTarget();
+            
+
             
           }, this);
     },
