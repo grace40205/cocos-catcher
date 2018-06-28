@@ -13,9 +13,7 @@ cc.Class({
 
     properties: {
         speedX:0,
-        speedY:0,
-        areaX:0,
-        areaY:0,
+        speedY:0,      
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -44,13 +42,13 @@ cc.Class({
     onCollisionEnter(other,self){
         
         if(0 === other.tag){
-            console.log('on collision ball enter');
+            //console.log('on collision ball enter');
             //  ball-ball            
             this.speedX *= -1;
             this.speedY *= -1;            
         } else if(1 === other.tag){
             // wall
-            console.log('on collision wall enter');
+            //console.log('on collision wall enter');
             this.speedX *= -1;
             this.speedY *= -1;
         }

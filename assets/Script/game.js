@@ -8,7 +8,7 @@
 //  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
 
-cc.Class({
+let gameJs = cc.Class({
     extends: cc.Component,
 
     properties: {
@@ -29,6 +29,10 @@ cc.Class({
         manager.enabledDebugDraw = true;
         //manager.enabledDrawBoundingBox = true;
 
+
+        // 数组保存ball引用
+        this.balls = new Array();
+
         this.spawnNewBalls();
     },
 
@@ -36,6 +40,7 @@ cc.Class({
         for (let i = 0; i <this.spawnRate; i++) {
             //let index = Math.floor(cc.random0To1() * this.ballPrefabs.length);
             var newBall = cc.instantiate(this.ballPrefabs[i]);
+            this.balls.push(newBall);
 
             newBall.parent = this.node.getChildByName('ballMgr');
             newBall.setPosition(this.getNewBallPosition());
@@ -54,3 +59,5 @@ cc.Class({
     },
     // update (dt) {},
 });
+
+module.exports = gameJs;
