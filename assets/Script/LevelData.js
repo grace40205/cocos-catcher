@@ -1,56 +1,72 @@
-let levelDatas={
-    data:[
+let levelDatas = {
+    data: [
         {
-            id:1001,
-            levelScore:10,
-            ballNum:2,
-            ballSpeed:{
-                x:0,//小球的球速
-                y:0,
+            id: 1001,
+            levelScore: 10,
+            repeat: 3,
+            ballNum: 1, // 干扰数目
+            goalNum: 1, // 目标数目
+            ballSpeed: {// 小球球速
+                x: 30,
+                y: 30,
             }
         },
         {
-            id:1002,
-            levelScore:20,
-            ballNum:4,
-            ballSpeed:0,//小球的球速
+            id: 1002,
+            levelScore: 20,
+            repeat: 5,
+            ballNum: 4, // 干扰数目
+            goalNum: 2, // 目标数目
+            ballSpeed: {// 小球球速
+                x: 50,
+                y: 50,
+            }
         },
         {
-            id:1003,
-            levelScore:30,
-            ballNum:4,
-            ballSpeed:0,//小球的球速
+            id: 1003,
+            levelScore: 30,
+            repeat: 5,
+            ballNum: 6, // 干扰数目
+            goalNum: 2, // 目标数目
+            ballSpeed: {// 小球球速
+                x: 40,
+                y: 40,
+            }
         },
         {
-            id:1004,
-            levelScore:40,
-            ballNum:6,
-            ballSpeed:0,//小球的球速
-
+            id: 1004,
+            levelScore: 40,
+            repeat: 6,
+            ballNum: 3, // 干扰数目
+            goalNum: 3, // 目标数目
+            ballSpeed: {// 小球球速
+                x: 30,
+                y: 30,
+            }
         },
         {
-            id:1005,
-            levelScore:50,
-            ballNum:7,
-            ballSpeed:0,//小球的球速
-
+            id: 1005,
+            levelScore: 50,
+            repeat: 6,
+            ballNum: 4, // 干扰数目
+            goalNum: 4, // 目标数目
+            ballSpeed: {// 小球球速
+                x: 25,
+                y: 25,
+            }
         },
     ],
-    getLevelById(id){
-        for(var i=0;i<this.data.length;i++){
-            if(this.data[i].id===id){
+    getLevelById(id) {
+        for (var i = 0; i < this.data.length; i++) {
+            if (this.data[i].id === id) {
                 return this.data[i];
             }
-            return null;
-
         }
-
+        return null;
     },
-    getLevelSize(){
+
+    getLevelSize() {
         return this.data.length;
     }
-    
-
-
 };
-module.exports=levelDatas;
+module.exports = levelDatas;
