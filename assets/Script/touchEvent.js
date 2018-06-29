@@ -36,7 +36,7 @@ cc.Class({
                 // console.log('rect:'+ rect.origin);
 
                 if (true == rect.contains(point)) {
-                    console.log('hit ball:' + i);
+                    //console.log('hit ball:' + i);
 
                     // 禁用ball关联的ball.js脚本
                     //ball.getComponent('ball').enabled = false;
@@ -47,6 +47,7 @@ cc.Class({
                             goals[j].ball.getComponent(cc.Sprite).spriteFrame)
                         {
                             console.log('hit the goal!');
+                            this.gameJs.updateCounters();
                             break;
                         }
                     }
