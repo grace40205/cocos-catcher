@@ -28,6 +28,7 @@ let gameJs = cc.Class({
         this.goalNum = 1;
 
         // 数组保存ball引用
+        this.indexSet = new Set();
         this.balls = new Array();
         this.goals = new Array();
 
@@ -41,6 +42,7 @@ let gameJs = cc.Class({
         this.loadLevelData(this.levelId);
 
         // 清空数组
+        this.indexSet.clear();
         this.balls.length = 0;
         this.goals.length = 0;
         // node:'goal'清空
@@ -72,7 +74,12 @@ let gameJs = cc.Class({
         this.levelId += 1;
         loadLevelData(this.levelId);
 
+        newGame();
+    },
+    
+    newGame() {
         // 清空数组
+        this.indexSet.clear();
         this.balls.length = 0;
         this.goals.length = 0;
         // node:'goal'清空
@@ -97,14 +104,7 @@ let gameJs = cc.Class({
                 this.repeatCounter = this.repeat;
             }
 
-            // 清空数组
-            this.balls.length = 0;
-            this.goals.length = 0;
-            // node:'goal'清空
-            this.clearGoalNodeChildren();
-            this.clearBallMgrNodeChildren();
-            this.spawnNewGoals(this.goalNumCounter);
-            this.spawnNewBalls(this.ballNumCounter);
+            this.newGame();
 
             console.log('ballNumCounter:(' + this.ballNumCounter + '/' + this.ballNum + ')');
             console.log('goalNumCounter:(' + this.goalNumCounter + '/' + this.goalNum + ')');
@@ -122,15 +122,7 @@ let gameJs = cc.Class({
                 }
             }
 
-            // 清空数组
-            this.balls.length = 0;
-            this.goals.length = 0;
-            // node:'goal'清空
-            this.clearGoalNodeChildren();
-            this.clearBallMgrNodeChildren();
-
-            this.spawnNewGoals(this.goalNumCounter);
-            this.spawnNewBalls(this.ballNumCounter);
+            this.newGame();
 
             console.log('ballNumCounter:(' + this.ballNumCounter + '/' + this.ballNum + ')');
             console.log('goalNumCounter:(' + this.goalNumCounter + '/' + this.goalNum + ')');
@@ -171,6 +163,10 @@ let gameJs = cc.Class({
                 ball: ball,
             };
             this.goals.push(goal);
+            // 保存goal的index，便于后面获取可用的干扰项index
+            if (!this.indexSet.has(index)) {
+                this.indexSet.add(index);
+            }
 
             goalNode.addChild(ball);
             //禁用关联的ball.js脚本
@@ -201,20 +197,32 @@ let gameJs = cc.Class({
     },
 
     getAvailablePrefabIndex() {
-        let finding = true;
         let index = -1;
+        // 获取可用的干扰项index
+        if (this.ballPrefabs.length <= this.goals.length) {
+            console.log('可选干扰项太少了');
+            return 0;
+        }
         while (true) {
             index = Math.floor(cc.random0To1() * this.ballPrefabs.length);
-            find: for (let j = 0; j < this.goals.length; j++) {
-                if (index == this.goals[j].id) {
-                    finding = false;
-                    break find;
-                }
-            }
-            if (finding) {
+            if (!this.indexSet.has(index)) {
                 return index;
             }
         }
+
+        // while (true) {
+        //     let finding = true;
+        //     index = Math.floor(cc.random0To1() * this.ballPrefabs.length);
+        //     find: for (let j = 0; j < this.goals.length; j++) {
+        //         if (index == this.goals[j].id) {
+        //             finding = false;
+        //             break find;
+        //         }
+        //     }
+        //     if (finding) {
+        //         return index;
+        //     }
+        // }
     },
 
     start() {
