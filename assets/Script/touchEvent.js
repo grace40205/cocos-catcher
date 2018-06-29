@@ -42,15 +42,32 @@ cc.Class({
                     //ball.getComponent('ball').enabled = false;
 
                     var goals = this.gameJs.goals;
-                    for(let j = 0; j < goals.length; j++){
-                        if(ball.getComponent(cc.Sprite).spriteFrame === 
-                            goals[j].ball.getComponent(cc.Sprite).spriteFrame)
-                        {
-                            console.log('hit the goal!');
-                            this.gameJs.updateCounters();
+                    for (let j = 0; j < goals.length; j++) {
+                        if (ball.getComponent(cc.Sprite).spriteFrame ===
+                            goals[j].ball.getComponent(cc.Sprite).spriteFrame
+                            && !goals[j].hited) {
+                            console.log('hit the goal!' + ' in goals[' + j + ']');
+
+                            // 顶部：找到的goal显示特效（小圈圈）
+                            // ...
+                            goals[j].ball.height = 20;
+                            goals[j].ball.width = 20;
+
+                            goals[j].hited = true;
+                            // 触摸的ball显示特效（小圈圈）
+                            // ...
+                            ball.height = 20;
+                            ball.width = 20;
+
+                            this.gameJs.hited++;
                             break;
                         }
                     }
+                    // 目标ball全部找到,过小关
+                    if (this.gameJs.hited == goals.length) {
+                        this.gameJs.updateCounters();
+                    }
+                    break;
                 }
             }
 
