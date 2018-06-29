@@ -35,13 +35,24 @@ cc.Class({
                         if(ball.getComponent(cc.Sprite).spriteFrame != 
                             goals[j].ball.getComponent(cc.Sprite).spriteFrame)
                         {
-                            console.log('hit the goal!----false!!!');
+                            console.log('图片不一样');
+                           
 
                             break;
                         }
+                        else {
+
+                        }
                     }
                     if(window.currLevel===window.LevelState.LevelOne){
+                        this.DemonJs.goals.length=0;
+                        this.DemonJs.balls.length=0; 
+                        this.DemonJs.clearGoalNodeChildren();
+                        this.DemonJs.clearBallMgrNodeChildren()
+
                         this.DemonJs.changeCurrLevel(window.LevelState.LevelTwo);
+                        console.log(this.DemonJs.goals.length);
+                        console.log(this.DemonJs.balls.length);
                     }
                 }
             }
