@@ -24,7 +24,11 @@ let gameJs = cc.Class({
 
         // 初始化属性
         this.score = 0;
+        // 已找到数
+        this.hited = 0;
+        // 大关干扰数
         this.ballNum = 1;
+        // 大关目标数
         this.goalNum = 1;
 
         // 数组保存ball引用
@@ -38,7 +42,7 @@ let gameJs = cc.Class({
         cc.dm.levelData = require('LevelData');
 
         //this.levelId = cc.dm.currLevel;
-        this.levelId = 1002;
+        this.levelId = 1001;
         this.loadLevelData(this.levelId);
 
         // 清空数组
@@ -72,12 +76,13 @@ let gameJs = cc.Class({
     changeLevel() {
         console.log('加载新关卡');
         this.levelId += 1;
-        loadLevelData(this.levelId);
+        this.loadLevelData(this.levelId);
 
-        newGame();
+        this.newGame();
     },
-    
+
     newGame() {
+        this.hited = 0;
         // 清空数组
         this.indexSet.clear();
         this.balls.length = 0;
@@ -94,16 +99,16 @@ let gameJs = cc.Class({
             this.goalNumCounter == this.goalNum &&
             this.repeatCounter == this.repeat) {
             // 干扰、目标、重复次数都达到最大时，开始下一关
-            changeLevel();
+            this.changeLevel();
+
             console.log('通关');
             console.log('##############');
         } else if (this.goalNumCounter == this.goalNum) {
             // 目标数目达到最大时，重复repeat次后过关
             this.repeatCounter++;
             if (this.repeatCounter >= this.repeat) {
-                this.repeatCounter = this.repeat;
+                this.repeatCounter = this.repeat;                
             }
-
             this.newGame();
 
             console.log('ballNumCounter:(' + this.ballNumCounter + '/' + this.ballNum + ')');
@@ -113,15 +118,13 @@ let gameJs = cc.Class({
         } else if (this.ballNumCounter == this.ballNum) {
             // 干扰数目达到最大时，重复repeat次后增加目标数目
             this.repeatCounter++;
-
             if (this.repeatCounter >= this.repeat) {
                 this.repeatCounter = 0;
                 this.goalNumCounter++;
                 if (this.goalNumCounter >= this.goalNum) {
-                    this.goalNumCounter = this.goalNum;
+                    this.goalNumCounter = this.goalNum;                  
                 }
             }
-
             this.newGame();
 
             console.log('ballNumCounter:(' + this.ballNumCounter + '/' + this.ballNum + ')');
@@ -130,13 +133,13 @@ let gameJs = cc.Class({
             console.log('##############');
         } else {
             // 干扰数增加
-            this.ballNumCounter++;
-            this.spawnNewBall();
-
+            this.ballNumCounter++;            
             if (this.ballNumCounter >= this.ballNum) {
                 this.ballNumCounter = this.ballNum;
-                this.repeatCounter = 0;
+                this.repeatCounter = 0;                
             }
+            this.newGame();
+
             console.log('ballNumCounter:(' + this.ballNumCounter + '/' + this.ballNum + ')');
             console.log('##############');
         }
@@ -161,6 +164,7 @@ let gameJs = cc.Class({
             var goal = {
                 id: index,
                 ball: ball,
+                hited:false,
             };
             this.goals.push(goal);
             // 保存goal的index，便于后面获取可用的干扰项index
