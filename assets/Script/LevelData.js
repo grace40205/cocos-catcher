@@ -4,7 +4,10 @@ let levelDatas={
             id:1001,
             levelScore:10,
             ballNum:2,
-            ballSpeed:0,//小球的球速
+            ballSpeed:{
+                x:0,//小球的球速
+                y:0,
+            }
         },
         {
             id:1002,
