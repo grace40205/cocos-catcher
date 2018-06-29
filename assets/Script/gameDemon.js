@@ -63,9 +63,9 @@ let DemonJs=cc.Class({
 
         if(this.currLevel===window.LevelState.LevelTwo){
            
-                this.spawnNewGoal(1);
+                this.spawnNewGoal(2);
                 this.spawnNewBalls();
-                this.spawnRate=3;
+                this.spawnRate=4;
         
    
            }

@@ -11,8 +11,7 @@ cc.Class({
 
     onLoad () {
         this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
-            // mouse down
-            // 获取鼠标位置的ball
+
             var point = new cc.Vec2(event.getLocationX(), event.getLocationY());
             // console.log('touch point:'+ point);
 
@@ -26,10 +25,23 @@ cc.Class({
                 // console.log('rect:'+ rect.origin);
 
                 if (true == rect.contains(point)) {
-                    console.log('hit ball:' + i);
-                    if( window.currLevel===window.LevelState.LevelOne){
-                        console.log('改变关数');
-                        this.DemonJs.changeState(window.LevelState.LevelTwo);
+                    //console.log('hit ball:' + i);
+
+                    // 禁用ball关联的ball.js脚本
+                    //ball.getComponent('ball').enabled = false;
+
+                    var goals = this.DemonJs.goals;
+                    for(let j = 0; j < goals.length; j++){
+                        if(ball.getComponent(cc.Sprite).spriteFrame != 
+                            goals[j].ball.getComponent(cc.Sprite).spriteFrame)
+                        {
+                            console.log('hit the goal!----false!!!');
+
+                            break;
+                        }
+                    }
+                    if(window.currLevel===window.LevelState.LevelOne){
+                        this.DemonJs.changeCurrLevel(window.LevelState.LevelTwo);
                     }
                 }
             }
