@@ -42,12 +42,14 @@ let gameJs = cc.Class({
         this.ballNum = 1;
         // 大关目标数
         this.goalNum = 1;
-        this.curPrefabs = this.ballPrefabs;
+        this.curPrefabs = this.catPrefabs;
 
         // 数组保存ball引用
         this.indexSet = new Set();
         this.balls = new Array();
         this.goals = new Array();
+        // ball初始位置（格子）
+        this.pos = new Array();
 
 
         // 加载关卡数据
@@ -58,15 +60,8 @@ let gameJs = cc.Class({
         this.levelId = 1001;
         this.loadLevelData(this.levelId);
 
-        // 清空数组
-        this.indexSet.clear();
-        this.balls.length = 0;
-        this.goals.length = 0;
-        // node:'goal'清空
-        this.clearGoalNodeChildren();
-        this.clearBallMgrNodeChildren();
-        this.spawnNewGoals(this.goalNumCounter);
-        this.spawnNewBalls(this.ballNumCounter);
+
+        this.newGame();
     },
 
     loadLevelData(id) {
@@ -87,12 +82,23 @@ let gameJs = cc.Class({
     },
 
     changeLevel() {
-        console.log('加载新关卡');        
+        console.log('加载新关卡');
 
         this.levelId += 1;
         this.loadLevelData(this.levelId);
 
         this.newGame();
+    },
+
+    initPosArray(w, h) {
+        this.pos.length = 0;
+        this.pos = new Array(w);
+        for (let i = 0; i < this.pos.length; i++) {
+            this.pos[i] = new Array(h);
+            for (let j = 0; j < this.pos[i].length; j++) {
+                this.pos[i][j] = false;
+            }
+        }
     },
 
     newGame() {
@@ -104,8 +110,12 @@ let gameJs = cc.Class({
             this.curPrefabs = this.ballPrefabs;
         }
 
+        let w = Math.ceil(this.areaW / (this.curPrefabs[0].data.width+ 5));
+        let h = Math.ceil(this.areaH / (this.curPrefabs[0].data.height+ 5));
+
         this.hited = 0;
         // 清空数组
+        this.initPosArray(w, h);
         this.indexSet.clear();
         this.balls.length = 0;
         this.goals.length = 0;
@@ -256,9 +266,27 @@ let gameJs = cc.Class({
     },
 
     getNewBallPosition() {
-        //400,220
-        var randX = cc.random0To1() * this.areaW + this.areaX;
-        var randY = cc.random0To1() * this.areaH + this.areaY;
+        // 格子
+        let cellWidth = this.curPrefabs[0].data.width + 5;
+        let cellHeight = this.curPrefabs[0].data.height + 5;
+
+        let w = this.pos.length;
+        let h = this.pos[0].length;
+
+        var randW = -1;
+        var randH = -1;
+        while (true) {
+            randW = Math.floor(cc.random0To1() * w);
+            randH = Math.floor(cc.random0To1() * h);
+
+            if (this.pos[randW][randH] != true) {
+                this.pos[randW][randH] = true;
+                break;
+            }
+        }
+
+        var randX = cellWidth * randW + this.areaX;
+        var randY = cellHeight * randH + this.areaY;
         return cc.p(randX, randY);
     },
     update(dt) {

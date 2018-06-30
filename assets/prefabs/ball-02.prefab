@@ -100,8 +100,8 @@
       "__id__": 1
     },
     "_enabled": true,
-    "speedX": 22,
-    "speedY": 55
+    "speedX": 88,
+    "speedY": 88
   },
   {
     "__type__": "cc.CircleCollider",

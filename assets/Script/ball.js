@@ -29,6 +29,10 @@ cc.Class({
         this.areaW = 800;
         this.areaX = 80;
         this.areaY = 20;
+
+        // 每个ball的速度随机
+        this.xSpeed = cc.randomMinus1To1() * this.speedX;
+        this.ySpeed = cc.randomMinus1To1() * this.speedY;
     },
 
     start() {
@@ -36,23 +40,23 @@ cc.Class({
     },
 
     update(dt) {
-        this.node.x += this.speedX * dt;
-        this.node.y += this.speedY * dt;
+        this.node.x += this.xSpeed * dt;
+        this.node.y += this.ySpeed * dt;
 
         if (this.node.x >= this.areaW + this.areaX) {
             this.node.x = this.areaW + this.areaX;
-            this.speedX *= -1;
+            this.xSpeed *= -1;
         } else if (this.node.x <= this.areaX) {
             this.node.x = this.areaX;
-            this.speedX *= -1;
+            this.xSpeed *= -1;
         }
 
         if (this.node.y >= this.areaH + this.areaY) {
             this.node.y = this.areaH + this.areaY;
-            this.speedY *= -1;
+            this.ySpeed *= -1;
         } else if (this.node.y <= this.areaY) {
             this.node.y = this.areaY;
-            this.speedY *= -1;
+            this.ySpeed *= -1;
         }
     },
 
@@ -61,13 +65,13 @@ cc.Class({
         if (0 === other.tag) {
             //console.log('on collision ball enter');
             //  ball-ball            
-            this.speedX *= -1;
-            this.speedY *= -1;
+            this.xSpeed *= -1;
+            this.ySpeed *= -1;
         } else if (1 === other.tag) {
             // wall
             // console.log('on collision wall enter');
-            // this.speedX *= -1;
-            // this.speedY *= -1;
+            // this.xSpeed *= -1;
+            // this.ySpeed *= -1;
         }
     },
 });
