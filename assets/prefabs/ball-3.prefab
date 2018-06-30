@@ -75,7 +75,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "bb887e31-e0c1-4323-a2f2-793106b10a20"
+      "__uuid__": "d8ed8eae-cb3f-436a-98bd-e13bccb01b45"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -125,7 +125,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "08a53ca5-3382-4296-95a7-1d23b7c484b0"
     },
     "fileId": "31tZaWmBlLILW6ZexBY7Az",
     "sync": false
