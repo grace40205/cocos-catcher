@@ -6,6 +6,10 @@ let gameJs = cc.Class({
             default: [],
             type: cc.Prefab,
         },
+        catPrefabs: {
+            default: [],
+            type: cc.Prefab,
+        },
         timeLbl: {
             default: null,
             type: cc.Label,
@@ -38,6 +42,7 @@ let gameJs = cc.Class({
         this.ballNum = 1;
         // 大关目标数
         this.goalNum = 1;
+        this.curPrefabs = this.ballPrefabs;
 
         // 数组保存ball引用
         this.indexSet = new Set();
@@ -82,7 +87,8 @@ let gameJs = cc.Class({
     },
 
     changeLevel() {
-        console.log('加载新关卡');
+        console.log('加载新关卡');        
+
         this.levelId += 1;
         this.loadLevelData(this.levelId);
 
@@ -90,6 +96,14 @@ let gameJs = cc.Class({
     },
 
     newGame() {
+
+        // 改变图片组
+        if (this.curPrefabs === this.ballPrefabs)
+            this.curPrefabs = this.catPrefabs;
+        else {
+            this.curPrefabs = this.ballPrefabs;
+        }
+
         this.hited = 0;
         // 清空数组
         this.indexSet.clear();
@@ -166,8 +180,8 @@ let gameJs = cc.Class({
         // console.log('goal pos:' + position.x + " " + position.y);
 
         for (let i = 0; i < num; i++) {
-            let index = Math.floor(cc.random0To1() * this.ballPrefabs.length);
-            var ball = cc.instantiate(this.ballPrefabs[index]);
+            let index = Math.floor(cc.random0To1() * this.curPrefabs.length);
+            var ball = cc.instantiate(this.curPrefabs[index]);
 
             var goal = {
                 id: index,
@@ -190,13 +204,13 @@ let gameJs = cc.Class({
     },
     spawnNewBall() {
         let index = this.getAvailablePrefabIndex();
-        var newBall = cc.instantiate(this.ballPrefabs[index]);
+        var newBall = cc.instantiate(this.curPrefabs[index]);
         newBall.parent = this.node.getChildByName('ballMgr');
         this.balls.push(newBall);
         newBall.setPosition(this.getNewBallPosition());
     },
     spawnNewBallByIndex(index) {
-        var newBall = cc.instantiate(this.ballPrefabs[index]);
+        var newBall = cc.instantiate(this.curPrefabs[index]);
         newBall.parent = this.node.getChildByName('ballMgr');
         this.balls.push(newBall);
         newBall.setPosition(this.getNewBallPosition());
@@ -211,12 +225,12 @@ let gameJs = cc.Class({
     getAvailablePrefabIndex() {
         let index = -1;
         // 获取可用的干扰项index
-        if (this.ballPrefabs.length <= this.goals.length) {
+        if (this.curPrefabs.length <= this.goals.length) {
             console.log('可选干扰项太少了');
             return 0;
         }
         while (true) {
-            index = Math.floor(cc.random0To1() * this.ballPrefabs.length);
+            index = Math.floor(cc.random0To1() * this.curPrefabs.length);
             if (!this.indexSet.has(index)) {
                 return index;
             }
@@ -224,7 +238,7 @@ let gameJs = cc.Class({
 
         // while (true) {
         //     let finding = true;
-        //     index = Math.floor(cc.random0To1() * this.ballPrefabs.length);
+        //     index = Math.floor(cc.random0To1() * this.curPrefabs.length);
         //     find: for (let j = 0; j < this.goals.length; j++) {
         //         if (index == this.goals[j].id) {
         //             finding = false;
