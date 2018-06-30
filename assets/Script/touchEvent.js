@@ -32,7 +32,8 @@ cc.Class({
                 // console.log('ball posX:' + ball.x + ' posY:' + ball.y +
                 //     ' width:' + ball.width + ' height:' + ball.height);
 
-                var rect = new cc.Rect(ball.x, ball.y, ball.width, ball.height);
+                var rect = new cc.Rect(ball.x - ball.width / 2, ball.y - ball.height / 2, 
+                    ball.width, ball.height);
                 // console.log('rect:'+ rect.origin);
 
                 if (true == rect.contains(point)) {

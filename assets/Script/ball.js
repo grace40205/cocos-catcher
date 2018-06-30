@@ -12,45 +12,62 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        speedX:0,
-        speedY:0,      
+        speedX: 0,
+        speedY: 0,
     },
 
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad () {
+    onLoad() {
+        // 以下方式获取的只是game函数？其中的属性都是undifined。？？？
+        // this.gameJs = require('game');
+        // this.areaH = this.gameJs.areaH;
+        // this.areaW = this.gameJs.areaW;
+        // this.areaX = this.gameJs.areaX;
+        // this.areaY = this.gameJs.areaY;
+        this.areaH = 400;
+        this.areaW = 800;
+        this.areaX = 80;
+        this.areaY = 20;
+    },
+
+    start() {
 
     },
 
-    start () {
-
-    },
-
-    update (dt) {
+    update(dt) {
         this.node.x += this.speedX * dt;
         this.node.y += this.speedY * dt;
 
-        // if(this.node.x >= this.areaX || this.node.x <= 0 ){
-        //     this.speedX *= -1;            
-        // }
+        if (this.node.x >= this.areaW + this.areaX) {
+            this.node.x = this.areaW + this.areaX;
+            this.speedX *= -1;
+        } else if (this.node.x <= this.areaX) {
+            this.node.x = this.areaX;
+            this.speedX *= -1;
+        }
 
-        // if(this.node.y >= this.areaY || this.node.y <= 0 ){
-        //     this.speedY *= -1;            
-        // }
+        if (this.node.y >= this.areaH + this.areaY) {
+            this.node.y = this.areaH + this.areaY;
+            this.speedY *= -1;
+        } else if (this.node.y <= this.areaY) {
+            this.node.y = this.areaY;
+            this.speedY *= -1;
+        }
     },
 
-    onCollisionEnter(other,self){
-        
-        if(0 === other.tag){
+    onCollisionEnter(other, self) {
+
+        if (0 === other.tag) {
             //console.log('on collision ball enter');
             //  ball-ball            
             this.speedX *= -1;
-            this.speedY *= -1;            
-        } else if(1 === other.tag){
-            // wall
-            //console.log('on collision wall enter');
-            this.speedX *= -1;
             this.speedY *= -1;
+        } else if (1 === other.tag) {
+            // wall
+            // console.log('on collision wall enter');
+            // this.speedX *= -1;
+            // this.speedY *= -1;
         }
     },
 });

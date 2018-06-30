@@ -6,13 +6,16 @@ let gameJs = cc.Class({
             default: [],
             type: cc.Prefab,
         },
-        timeLbl:{
-            default:null,
-            type:cc.Label,
+        timeLbl: {
+            default: null,
+            type: cc.Label,
         },
-        areaX: 0,
-        areaY: 0,
-
+        // ball活动范围
+        areaX: 0, // 原点x坐标
+        areaY: 0, // 原点y坐标
+        areaW: 0, // 宽
+        areaH: 0, // 高
+        // 目标位置
         goalX: 0,
         goalY: 0,
     },
@@ -112,7 +115,7 @@ let gameJs = cc.Class({
             // 目标数目达到最大时，重复repeat次后过关
             this.repeatCounter++;
             if (this.repeatCounter >= this.repeat) {
-                this.repeatCounter = this.repeat;                
+                this.repeatCounter = this.repeat;
             }
             this.newGame();
 
@@ -127,7 +130,7 @@ let gameJs = cc.Class({
                 this.repeatCounter = 0;
                 this.goalNumCounter++;
                 if (this.goalNumCounter >= this.goalNum) {
-                    this.goalNumCounter = this.goalNum;                  
+                    this.goalNumCounter = this.goalNum;
                 }
             }
             this.newGame();
@@ -138,10 +141,10 @@ let gameJs = cc.Class({
             console.log('##############');
         } else {
             // 干扰数增加
-            this.ballNumCounter++;            
+            this.ballNumCounter++;
             if (this.ballNumCounter >= this.ballNum) {
                 this.ballNumCounter = this.ballNum;
-                this.repeatCounter = 0;                
+                this.repeatCounter = 0;
             }
             this.newGame();
 
@@ -169,7 +172,7 @@ let gameJs = cc.Class({
             var goal = {
                 id: index,
                 ball: ball,
-                hited:false,
+                hited: false,
             };
             this.goals.push(goal);
             // 保存goal的index，便于后面获取可用的干扰项index
@@ -240,21 +243,21 @@ let gameJs = cc.Class({
 
     getNewBallPosition() {
         //400,220
-        var randX = cc.random0To1() * this.areaX + 100;
-        var randY = cc.random0To1() * this.areaY + 20;
+        var randX = cc.random0To1() * this.areaW + this.areaX;
+        var randY = cc.random0To1() * this.areaH + this.areaY;
         return cc.p(randX, randY);
     },
-    update (dt) {
+    update(dt) {
         this.timer += dt;
-        if(this.timer >= 1){
+        if (this.timer >= 1) {
             this.timer = 0;
             this.time++; // second
 
             let minute = Math.floor(this.time / 60);
             let second = this.time - minute * 60;
-            if(minute < 10)
+            if (minute < 10)
                 minute = '0' + minute;
-            if(second < 10)
+            if (second < 10)
                 second = '0' + second;
             this.timeLbl.string = 'Time:' + minute + ':' + second;
         }
