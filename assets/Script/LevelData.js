@@ -3,9 +3,9 @@ let levelDatas = {
         {
             id: 1001,
             levelScore: 10,
-            repeat: 3,
+            repeat: 2,
             ballNum: 1, // 干扰数目
-            goalNum: 1, // 目标数目
+            goalNum: 3, // 目标数目
             ballSpeed: {// 小球球速
                 x: 30,
                 y: 30,

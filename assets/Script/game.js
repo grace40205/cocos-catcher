@@ -6,7 +6,10 @@ let gameJs = cc.Class({
             default: [],
             type: cc.Prefab,
         },
-        spawnRate: 0,
+        timeLbl:{
+            default:null,
+            type:cc.Label,
+        },
         areaX: 0,
         areaY: 0,
 
@@ -23,6 +26,8 @@ let gameJs = cc.Class({
         //manager.enabledDrawBoundingBox = true;
 
         // 初始化属性
+        this.time = 0; // 显示的时间
+        this.timer = 0; // 一秒钟计时器
         this.score = 0;
         // 已找到数
         this.hited = 0;
@@ -175,7 +180,7 @@ let gameJs = cc.Class({
             goalNode.addChild(ball);
             //禁用关联的ball.js脚本
             ball.getComponent('ball').enabled = false;
-            ball.setPosition(position.x + ball.width * i, position.y);
+            ball.setPosition(position.x + (ball.width + 5) * i, position.y);
 
             this.spawnNewBallByIndex(index);
         }
@@ -239,6 +244,20 @@ let gameJs = cc.Class({
         var randY = cc.random0To1() * this.areaY + 20;
         return cc.p(randX, randY);
     },
-    // update (dt) {},
+    update (dt) {
+        this.timer += dt;
+        if(this.timer >= 1){
+            this.timer = 0;
+            this.time++; // second
+
+            let minute = Math.floor(this.time / 60);
+            let second = this.time - minute * 60;
+            if(minute < 10)
+                minute = '0' + minute;
+            if(second < 10)
+                second = '0' + second;
+            this.timeLbl.string = 'Time:' + minute + ':' + second;
+        }
+    },
 });
 module.export = gameJs;
