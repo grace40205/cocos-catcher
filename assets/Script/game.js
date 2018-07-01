@@ -26,6 +26,10 @@ let gameJs = cc.Class({
             default: null,
             type: cc.Label,
         },
+        progressBar:{
+            default:null,
+            type:cc.ProgressBar,
+        },
         // ball活动范围
         areaX: 0, // 原点x坐标
         areaY: 0, // 原点y坐标
@@ -71,6 +75,9 @@ let gameJs = cc.Class({
         // 加载关卡数据
         cc.dm = {};
         cc.dm.levelData = require('LevelData');
+        
+        this.levelLength = cc.dm.levelData.getLevelSize();
+        this.levelProgress = 0;
 
         //this.levelId = cc.dm.currLevel;
         this.levelId = 1001;
@@ -97,6 +104,9 @@ let gameJs = cc.Class({
 
     changeLevel() {
         console.log('加载关卡:' + this.levelId);
+        this.levelProgress ++;
+
+        this.updateProgressBar();
         this.updateScore(this.levelScore);
 
         this.loadLevelData(this.levelId);
@@ -163,6 +173,11 @@ let gameJs = cc.Class({
         this.clearBallMgrNodeChildren();
         this.spawnNewGoals(this.goalNumCounter);
         this.spawnNewBalls(this.ballNumCounter);
+    },
+
+    updateProgressBar(){
+        this.progressBar.progress = this.levelProgress / this.levelLength;
+        console.log('progress:' + this.progressBar.progress);
     },
 
     updateCounters() {
