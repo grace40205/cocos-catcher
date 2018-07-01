@@ -87,6 +87,13 @@ let gameJs = cc.Class({
         this.levelId += 1;
         this.loadLevelData(this.levelId);
 
+        // 改变图片组
+        if (this.curPrefabs === this.ballPrefabs)
+            this.curPrefabs = this.catPrefabs;
+        else {
+            this.curPrefabs = this.ballPrefabs;
+        }
+
         this.newGame();
     },
 
@@ -103,15 +110,9 @@ let gameJs = cc.Class({
 
     newGame() {
 
-        // 改变图片组
-        if (this.curPrefabs === this.ballPrefabs)
-            this.curPrefabs = this.catPrefabs;
-        else {
-            this.curPrefabs = this.ballPrefabs;
-        }
-
-        let w = Math.ceil(this.areaW / (this.curPrefabs[0].data.width+ 5));
-        let h = Math.ceil(this.areaH / (this.curPrefabs[0].data.height+ 5));
+        console.log('new game starts...');
+        let w = Math.ceil(this.areaW / (this.curPrefabs[0].data.width + 5));
+        let h = Math.ceil(this.areaH / (this.curPrefabs[0].data.height + 5));
 
         this.hited = 0;
         // 清空数组
@@ -136,44 +137,45 @@ let gameJs = cc.Class({
             console.log('通关');
             console.log('##############');
         } else if (this.goalNumCounter == this.goalNum) {
+            console.log('ballNumCounter:(' + this.ballNumCounter + '/' + this.ballNum + ')');
+            console.log('goalNumCounter:(' + this.goalNumCounter + '/' + this.goalNum + ')');
+            console.log('repeatCounter:(' + this.repeatCounter + '/' + this.repeat + ')');
+            console.log('##############');
+            
             // 目标数目达到最大时，重复repeat次后过关
             this.repeatCounter++;
-            if (this.repeatCounter >= this.repeat) {
-                this.repeatCounter = this.repeat;
+            if (this.repeatCounter == this.repeat) {
+                this.updateCounters();
+                return;
             }
             this.newGame();
 
+        } else if (this.ballNumCounter == this.ballNum) {
             console.log('ballNumCounter:(' + this.ballNumCounter + '/' + this.ballNum + ')');
             console.log('goalNumCounter:(' + this.goalNumCounter + '/' + this.goalNum + ')');
-            console.log('repeatCounter:(' + this.repeatCounter + '/' + this.ballNum + ')');
+            console.log('repeatCounter:(' + this.repeatCounter + '/' + this.repeat + ')');
             console.log('##############');
-        } else if (this.ballNumCounter == this.ballNum) {
+
             // 干扰数目达到最大时，重复repeat次后增加目标数目
             this.repeatCounter++;
-            if (this.repeatCounter >= this.repeat) {
+            if (this.repeatCounter == this.repeat) {
                 this.repeatCounter = 0;
-                this.goalNumCounter++;
-                if (this.goalNumCounter >= this.goalNum) {
-                    this.goalNumCounter = this.goalNum;
-                }
+                this.goalNumCounter++;                
             }
             this.newGame();
 
-            console.log('ballNumCounter:(' + this.ballNumCounter + '/' + this.ballNum + ')');
-            console.log('goalNumCounter:(' + this.goalNumCounter + '/' + this.goalNum + ')');
-            console.log('repeatCounter:(' + this.repeatCounter + '/' + this.ballNum + ')');
-            console.log('##############');
         } else {
+            console.log('ballNumCounter:(' + this.ballNumCounter + '/' + this.ballNum + ')');
+            console.log('##############');
+
             // 干扰数增加
             this.ballNumCounter++;
-            if (this.ballNumCounter >= this.ballNum) {
+            if (this.ballNumCounter == this.ballNum) {
                 this.ballNumCounter = this.ballNum;
                 this.repeatCounter = 0;
+                return;
             }
             this.newGame();
-
-            console.log('ballNumCounter:(' + this.ballNumCounter + '/' + this.ballNum + ')');
-            console.log('##############');
         }
     },
     clearGoalNodeChildren() {
