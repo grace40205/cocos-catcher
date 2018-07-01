@@ -15,6 +15,14 @@ cc.Class({
 
     properties: {
         gameJs: gameJs,
+        rtPrefab: {
+            default: null,
+            type: cc.Prefab,
+        },
+        wngPrefab: {
+            default: null,
+            type: cc.Prefab,
+        },
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -32,16 +40,14 @@ cc.Class({
                 // console.log('ball posX:' + ball.x + ' posY:' + ball.y +
                 //     ' width:' + ball.width + ' height:' + ball.height);
 
-                var rect = new cc.Rect(ball.x - ball.width / 2, ball.y - ball.height / 2, 
+                var rect = new cc.Rect(ball.x - ball.width / 2, ball.y - ball.height / 2,
                     ball.width, ball.height);
                 // console.log('rect:'+ rect.origin);
 
                 if (true == rect.contains(point)) {
-                    //console.log('hit ball:' + i);
+                    //console.log('hit ball:' + i);                    
 
-                    // 禁用ball关联的ball.js脚本
-                    //ball.getComponent('ball').enabled = false;
-
+                    var correctHit = false;
                     var goals = this.gameJs.goals;
                     for (let j = 0; j < goals.length; j++) {
                         if (ball.getComponent(cc.Sprite).spriteFrame ===
@@ -51,18 +57,35 @@ cc.Class({
 
                             // 顶部：找到的goal显示特效（小圈圈）
                             // ...
-                            goals[j].ball.height = 20;
-                            goals[j].ball.width = 20;
+                            // goals[j].ball.height = 20;
+                            // goals[j].ball.width = 20;
+                            let hited = cc.instantiate(this.rtPrefab);
+                            goals[j].ball.addChild(hited);
 
                             goals[j].hited = true;
+                            correctHit = true;
                             // 触摸的ball显示特效（小圈圈）
                             // ...
-                            ball.height = 20;
-                            ball.width = 20;
+                            // ball.height = 20;
+                            // ball.width = 20;
 
                             this.gameJs.hited++;
                             break;
                         }
+                    }
+                    // 点击错误
+                    if(!correctHit){
+                        console.log('hit the wrong ball');
+
+                        let wng = cc.instantiate(this.wngPrefab);
+                        ball.addChild(wng);
+
+                        this.gameJs.scheduleOnce(function(){
+                            console.log('test schedule...');
+                            this.newGame();
+                        },2);
+
+                        break;
                     }
                     // 目标ball全部找到,过小关
                     if (this.gameJs.hited == goals.length) {
