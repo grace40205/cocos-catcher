@@ -10,7 +10,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "LabelTip2",
+    "_name": "LabelTip4",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -95,7 +95,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 390,
+      "width": 578,
       "height": 40
     },
     "_rotationX": 0,
@@ -130,7 +130,7 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "请注意下面的小球在增加哟！",
+    "_N$string": "注意 ！目标球和下面的小球数目同时增加了",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
@@ -142,9 +142,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "3f30c26e-4b02-4b14-8665-092c11c5e11f"
+      "__uuid__": "b7afb6cd-1d63-48b5-ad2c-bdb9bdf74ff0"
     },
-    "fileId": "faCx3Vdf5EypAs4MsBjBmV",
+    "fileId": "7eWYYmEPlPmrJjI/99pTj/",
     "sync": false
   },
   {
@@ -153,9 +153,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "3f30c26e-4b02-4b14-8665-092c11c5e11f"
+      "__uuid__": "b7afb6cd-1d63-48b5-ad2c-bdb9bdf74ff0"
     },
-    "fileId": "aai5iBWrxLaq+ShlmyVnqe",
+    "fileId": "b6bwnINlxA47OWtZBfQ46N",
     "sync": false
   }
 ]
