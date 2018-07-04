@@ -39,7 +39,9 @@ let DemonJs=cc.Class({
         // 数组保存ball引用
         this.balls = new Array();
         this.goals = new Array();
+        //解决小球位置重复变量
         this.ballPostion=0;
+        //目标球个数
         this.goalsNum=1;
 
        this.animStart=this.animStartTipN.getComponent(cc.Animation);
@@ -135,7 +137,6 @@ let DemonJs=cc.Class({
         this.tipNews.string='   ';
         demonFive.active=true;
         this.scheduleOnce(function() {
-
             cc.dm.curMode = cc.dm.Mode.exercise;
             cc.director.loadScene('Exercise');
 

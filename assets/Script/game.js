@@ -139,7 +139,7 @@ let gameJs = cc.Class({
         // 通关
         // 测试模式：显示通关统计
         // 练习模式：
-        if (this.levelProgress > 1){//this.levelLength) {
+        if (this.levelProgress > this.levelLength) {
             console.log('通关！！！');
             this.showDialog(cc.dm.Dialog.done);
             return;
