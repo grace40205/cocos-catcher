@@ -41,12 +41,12 @@ cc.Class({
 
          this.ExamN.on(cc.Node.EventType.MOUSE_MOVE, function(event){
             cc.log('-------ExamN-------'); 
-            let tip=this.getChildByName('MenuTipExam');
+            let tip=this.getChildByName('MenuTipChall');
             tip.active=true;
         }, this.ExamN);
         this.ExamN.on(cc.Node.EventType.MOUSE_LEAVE, function(event){
             cc.log('-------ExamN-------'); 
-            let tip=this.getChildByName('MenuTipExam');
+            let tip=this.getChildByName('MenuTipChall');
             tip.active=false;
         }, this.ExamN);
         
