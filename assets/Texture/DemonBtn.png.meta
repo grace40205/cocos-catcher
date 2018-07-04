@@ -1,0 +1,30 @@
+{
+  "ver": "1.0.0",
+  "uuid": "bc13cd97-a1a4-49f7-bbaf-be158948f5b4",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "DemonBtn": {
+      "ver": "1.0.3",
+      "uuid": "fdaa00eb-e254-4416-872b-6fdac1920b63",
+      "rawTextureUuid": "bc13cd97-a1a4-49f7-bbaf-be158948f5b4",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 15,
+      "trimY": 15,
+      "width": 98,
+      "height": 98,
+      "rawWidth": 128,
+      "rawHeight": 128,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

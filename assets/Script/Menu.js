@@ -12,17 +12,42 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
      onLoad () {
+
+        //当鼠标在按钮上时显示提示框
          this.DemonN.on(cc.Node.EventType.MOUSE_MOVE, function(event){
              console.log('演示模式');
              let tipDemon=this.getChildByName('MenuTipD');
              tipDemon.active=true;
 
          },this.DemonN);
+         //当鼠标离开时
+         this.DemonN.on(cc.Node.EventType.MOUSE_LEAVE, function(event){
+            console.log('演示模式');
+            let tipDemon=this.getChildByName('MenuTipD');
+            tipDemon.active=false;
+
+        },this.DemonN);
+
          this.ExercisN.on(cc.Node.EventType.MOUSE_MOVE, function(event){
             cc.log('-------ExercisN-------'); 
+            let tip=this.getChildByName('MenuTipExce');
+            tip.active=true;
          }, this.ExercisN);
+         this.ExercisN.on(cc.Node.EventType.MOUSE_LEAVE, function(event){
+            cc.log('-------ExercisN-------'); 
+            let tip=this.getChildByName('MenuTipExce');
+            tip.active=false;
+         }, this.ExercisN);
+
          this.ExamN.on(cc.Node.EventType.MOUSE_MOVE, function(event){
             cc.log('-------ExamN-------'); 
+            let tip=this.getChildByName('MenuTipExam');
+            tip.active=true;
+        }, this.ExamN);
+        this.ExamN.on(cc.Node.EventType.MOUSE_LEAVE, function(event){
+            cc.log('-------ExamN-------'); 
+            let tip=this.getChildByName('MenuTipExam');
+            tip.active=false;
         }, this.ExamN);
         
         var manager = cc.director.getCollisionManager();

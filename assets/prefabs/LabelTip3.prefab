@@ -95,7 +95,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 660,
+      "width": 630,
       "height": 40
     },
     "_rotationX": 0,
@@ -130,7 +130,7 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "注意目标球数增加了！请按顺序依次找出目标小球",
+    "_N$string": "注意目标球数增加了！下面小球的速度也增加了",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",

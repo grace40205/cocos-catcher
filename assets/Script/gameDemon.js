@@ -7,11 +7,12 @@ window.LevelState=cc.Enum({
     LevelFive:-1,
 
 });
-let gameJs=require('game');
+
 let DemonJs=cc.Class({
     extends: cc.Component,
 
     properties: {
+        tipNews:cc.Label,
         animStartTipN:cc.Node,
         ballPrefabs: {
             default: [],
@@ -42,7 +43,7 @@ let DemonJs=cc.Class({
         this.goalsNum=1;
 
        this.animStart=this.animStartTipN.getComponent(cc.Animation);
-       this.animState=this.animStart.play('AnimStart');
+       this.animState=this.animStart.play('AnimStart1');
        window.isPlaying=this.animState.isPlaying;
      
       window.currLevel=window.LevelState.LevelNone;
@@ -56,6 +57,9 @@ let DemonJs=cc.Class({
     changeCurrLevel(state){
         var position = new cc.p(this.goalX, this.goalY);
         var goalNode = this.node.getChildByName('goal');
+        var demonFive = this.node.getChildByName('five');
+        demonFive.active=false;
+
         if(window.currLevel===state){
             return;
         }
@@ -84,18 +88,20 @@ let DemonJs=cc.Class({
          }
         }
         else if(window.currLevel===window.LevelState.LevelTwo){
+            this.tipNews.string='请点击目标球';
             this.spawnRate=4;
             console.log('当前关卡-----'+window.currLevel);
             console.log('当前目标球数-------'+this.goalsNum);
             console.log('当前球数-------'+this.spawnRate);
             var tip1 = cc.instantiate(this.labelTip[1]);
             goalNode.addChild(tip1);
-            tip1.setPosition(position.x , position.y-100);                  
+            tip1.setPosition(position.x , position.y-80);                  
                 this.spawnNewGoal(1);
                 this.spawnNewBalls();
                
         }
         else if(window.currLevel===window.LevelState.LevelThree){
+            this.tipNews.string='请点击目标球';
             this.goalsNum=2;
             this.spawnRate=4;
             console.log('当前关卡-----'+window.currLevel);
@@ -105,25 +111,33 @@ let DemonJs=cc.Class({
 
             var tip2 = cc.instantiate(this.labelTip[2]);
             goalNode.addChild(tip2);
-            tip2.setPosition(position.x , position.y-100);
+            tip2.setPosition(position.x , position.y-80);
             this.spawnNewGoal(this.goalsNum);
             this.spawnNewBalls();
             
        }
        else  if(window.currLevel===window.LevelState.LevelFour){
+        this.tipNews.string='请点击目标球';
          this.goalsNum=3;
          this.spawnRate=5;
+
          console.log('当前关卡-----'+window.currLevel);
          console.log('当前目标球数-------'+this.goalsNum);
          console.log('当前球数-------'+this.spawnRate);
          var tip3 = cc.instantiate(this.labelTip[3]);
          goalNode.addChild(tip3);
-         tip3.setPosition(position.x , position.y-100);
+         tip3.setPosition(position.x , position.y-80);
        
          this.spawnNewGoal(this.goalsNum);
          this.spawnNewBalls();
        }
        else if(window.currLevel===window.LevelState.LevelFive){
+        this.tipNews.string='   ';
+        demonFive.active=true;
+        this.scheduleOnce(function() {
+            cc.director.loadScene('Exercise');
+
+        },2);
 
        }
 
@@ -175,6 +189,12 @@ spawnNewGoal(num){
         this.ballPostion+=1;
 
         var newBall = cc.instantiate(this.ballPrefabs[index]);
+        var newBallSpeed=newBall.getComponent('ball');
+        let newspeed=newBallSpeed.x;
+        if(window.currLevel===window.LevelState.LevelThree){
+            newBallSpeed.speedX=2*newBallSpeed.speedX;
+        }
+
         newBall.parent = this.node.getChildByName('ballMgr');
         this.balls.push(newBall);
         if(this.ballPostion===1){

@@ -12,6 +12,7 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
+        var tipNews=this.DemonJs.tipNews;
         
         this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
             var point = new cc.Vec2(event.getLocationX(), event.getLocationY());
@@ -50,6 +51,7 @@ cc.Class({
                             trueBall=true;
                             this.DemonJs.goals[j].ball.getComponent(cc.Sprite).spriteFrame=null;
                             console.log('点击次数='+window.touchNum);
+                            tipNews.string='点击正确';
              
                             console.log('图片一样'+j);
                             break;
@@ -59,6 +61,7 @@ cc.Class({
                    if(!trueBall){
                          this.DemonJs.balls[i].getComponent(cc.Sprite).spriteFrame=this.ballFalse;
                          console.log('图片不一样');
+                         tipNews.string='点击错误';
 
                          window.touchNum+=1;
                         
@@ -67,6 +70,8 @@ cc.Class({
                     }
                     if(window.touchNum===goals.length){
                         window.touchNum=0;
+
+
                         
                         this.DemonJs.scheduleOnce(function() {
                             console.log("延时");
