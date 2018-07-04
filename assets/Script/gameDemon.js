@@ -181,7 +181,7 @@ spawnNewGoal(num){
             
             goalNode.addChild(ball);
             //禁用关联的ball.js脚本
-            ball.MenuBackground.enabled = false;
+            ball.getComponent('ball').enabled = false;
             ball.setPosition(position.x + ball.width * i, position.y);
             
             this.spawnNewBall(index);
@@ -193,6 +193,7 @@ spawnNewGoal(num){
 
         var newBall = cc.instantiate(this.ballPrefabs[index]);
         var newBallSpeed=newBall.getComponent('ball');
+        newBall.getComponent('ball').setSpeedOffset(0);
         let newspeed=newBallSpeed.x;
         if(window.currLevel===window.LevelState.LevelThree){
             newBallSpeed.speedX=2*newBallSpeed.speedX;
