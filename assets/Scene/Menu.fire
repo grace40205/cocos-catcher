@@ -241,8 +241,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 245,
-      "y": -172
+      "x": 528,
+      "y": -310
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -278,14 +278,14 @@
     "_atlas": null
   },
   {
-    "__type__": "f7f02j8xVZOkYBdGFOEwkFy",
+    "__type__": "7f24c+55mRI/pfsj2agvPlP",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 5
     },
     "_enabled": true,
-    "speedX": 20,
+    "speedX": -30,
     "speedY": 30
   },
   {
