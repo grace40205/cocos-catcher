@@ -71,6 +71,7 @@ let gameJs = cc.Class({
         this.goalNum = 1;
         this.repeat = 1;
         this.curPrefabs = this.catPrefabs;
+        this.speedOffset = 0;
 
         // 涉及的对话框
         this.successDialog = null;
@@ -141,8 +142,21 @@ let gameJs = cc.Class({
         // 练习模式：
         if (this.levelProgress > this.levelLength) {
             console.log('通关！！！');
-            this.showDialog(cc.dm.Dialog.done);
-            return;
+
+            if(cc.dm.curMode == cc.dm.Mode.exercise){
+                // 重新开始，ball速度增加
+                this.levelId = 1001;
+                this.levelProgress = 1; 
+
+                this.speedOffset += 100; 
+                console.log('speedOffset:' + this.speedOffset);        
+                if(this.speedOffset >= 400){
+                    this.speedOffset = 400;
+                }
+            } else{
+                this.showDialog(cc.dm.Dialog.done);
+                return;
+            }
         }
 
 
@@ -435,12 +449,15 @@ let gameJs = cc.Class({
     spawnNewBall() {
         let index = this.getAvailablePrefabIndex();
         var newBall = cc.instantiate(this.curPrefabs[index]);
+        newBall.getComponent('ball').setSpeedOffset(this.speedOffset);
+
         newBall.parent = this.node.getChildByName('ballMgr');
         this.balls.push(newBall);
         newBall.setPosition(this.getNewBallPosition());
     },
     spawnNewBallByIndex(index) {
         var newBall = cc.instantiate(this.curPrefabs[index]);
+        newBall.getComponent('ball').setSpeedOffset(this.speedOffset);
         newBall.parent = this.node.getChildByName('ballMgr');
         this.balls.push(newBall);
         newBall.setPosition(this.getNewBallPosition());
