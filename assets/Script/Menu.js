@@ -3,15 +3,27 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
+        //audioSource:cc.AudioSource,
         DemonN:cc.Node,
         ExercisN:cc.Node,
         ExamN:cc.Node,
+        music:cc.Node,
+        musicPlay:cc.SpriteFrame,
+        musicPause:cc.SpriteFrame,
        
     },
 
     // LIFE-CYCLE CALLBACKS:
 
      onLoad () {
+         this.menuB=this.node.getChildByName('MenuBackground');
+         this.audioSource=this.menuB.getComponent(cc.AudioSource);
+
+         this.audioSource.play();
+         this.isPlayingMusic=true;
+         this.btnMusic=this.node.getChildByName('BtnMusic');
+         this.btnAudio=this.btnMusic.getComponent(cc.AudioSource);
+         
 
         //当鼠标在按钮上时显示提示框
          this.DemonN.on(cc.Node.EventType.MOUSE_MOVE, function(event){
@@ -72,20 +84,39 @@ cc.Class({
 
     },
     onBtnDemon() {
+        this.btnAudio.play();
+        
         cc.dm.curMode = cc.dm.Mode.demon;
         cc.director.loadScene('Demon');
     },
     onBtnExciseBtn() {
+        this.btnAudio.play();
         cc.dm.curMode = cc.dm.Mode.exercise;
         cc.director.loadScene('Exercise');
     },
     onBtnExam() {
+
+    
         if(this.examLocked){
             console.log('exam locked.');
             return;
         }
+        this.btnAudio.play();
         cc.dm.curMode = cc.dm.Mode.exam;
         cc.director.loadScene('Exercise');
+    },
+    onBtnMusic(){
+        this.btnAudio.play();
+        if(this.isPlayingMusic){
+            this.music.getComponent(cc.Sprite).spriteFrame=this.musicPause;
+            this.audioSource.pause();
+            this.isPlayingMusic=false;
+        }
+        else{
+        this.music.getComponent(cc.Sprite).spriteFrame=this.musicPlay;
+        this.audioSource.play();
+        this.isPlayingMusic=true;
+        }
     },
 
 

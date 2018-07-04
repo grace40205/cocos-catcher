@@ -181,7 +181,7 @@ spawnNewGoal(num){
             
             goalNode.addChild(ball);
             //禁用关联的ball.js脚本
-            ball.getComponent('ball').enabled = false;
+            ball.MenuBackground.enabled = false;
             ball.setPosition(position.x + ball.width * i, position.y);
             
             this.spawnNewBall(index);
