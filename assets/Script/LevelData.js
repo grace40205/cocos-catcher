@@ -72,6 +72,16 @@ let levelDatas = {
 
     getLevelSize() {
         return this.data.length;
-    }
+    },
+
+    examLocked:true,
+    setExamLocked(locked){
+        this.examLocked = locked;
+    },
+    getExamLocked(){
+        return this.examLocked;
+    },
+
+    examMinScore:10,
 };
 module.exports = levelDatas;

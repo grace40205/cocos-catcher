@@ -10,25 +10,25 @@ let gameJs = cc.Class({
             default: [],
             type: cc.Prefab,
         },
-        dialogPrefab:{
-            default:null,
-            type:cc.Prefab,
+        dialogPrefabs: {
+            default: [],
+            type: cc.Prefab,
         },
         timeLbl: {
             default: null,
             type: cc.Label,
         },
-        limitTimeLbl: {
-            default: null,
-            type: cc.Label,
-        },
+        // limitTimeLbl: {
+        //     default: null,
+        //     type: cc.Label,
+        // },
         scoreLbl: {
             default: null,
             type: cc.Label,
         },
-        progressBar:{
-            default:null,
-            type:cc.ProgressBar,
+        progressBar: {
+            default: null,
+            type: cc.ProgressBar,
         },
         // ball活动范围
         areaX: 0, // 原点x坐标
@@ -43,14 +43,14 @@ let gameJs = cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
-        var manager = cc.director.getCollisionManager();
-        manager.enabled = true;
-        manager.enabledDebugDraw = true;
+        // var manager = cc.director.getCollisionManager();
+        // manager.enabled = true;
+        // manager.enabledDebugDraw = true;
         //manager.enabledDrawBoundingBox = true;
 
         // 初始化属性
         this.time = 0; // 显示总时间
-        this.limitTime = 0; // 显示当前关卡倒计时
+        // this.limitTime = 0; // 显示当前关卡倒计时
         this.timer = 0; // 一秒钟计时器
         this.score = 0;
         this.levelScore = 0;
@@ -61,8 +61,14 @@ let gameJs = cc.Class({
         // 大关目标数
         this.goalNum = 1;
         this.repeat = 1;
-        this.curPrefabs = this.catPrefabs;    
-        this.dialog = null;
+        this.curPrefabs = this.catPrefabs;
+
+        // 涉及的对话框
+        this.successDialog = null;
+        this.gameOverDialog = null;
+        this.unlockDialog = null;
+        this.doneDialog = null;
+
 
         // 数组保存ball引用
         this.indexSet = new Set();
@@ -71,11 +77,6 @@ let gameJs = cc.Class({
         // ball初始位置（格子）
         this.pos = new Array();
 
-
-        // 加载关卡数据
-        cc.dm = {};
-        cc.dm.levelData = require('LevelData');
-        
         this.levelLength = cc.dm.levelData.getLevelSize();
         this.levelProgress = 0;
 
@@ -94,23 +95,50 @@ let gameJs = cc.Class({
         this.goalNumCounter = this.goalNum;
         this.repeatCounter = 0;
 
-        this.limitTime = level.limitTime;
+        // if (cc.dm.curMode == cc.dm.Mode.exam) {
+        //     this.limitTime = level.limitTime;
+        // }
+
         this.levelScore = level.levelScore;
         this.ballNum = level.ballNum;
         this.goalNum = level.goalNum;
         this.repeat = level.repeat;
         this.ballSpeed = level.ballSpeed;
     },
+    start() {
+        if (cc.dm.curMode == cc.dm.Mode.exercise) {
+            console.log('timeLbl.enabled = false');
+            this.timeLbl.enabled = false;
+        }
+
+        if (cc.dm.curMode == cc.dm.Mode.exam) {
+            console.log('scoreLbl.enbaled = false');
+            this.scoreLbl.enabled = false;
+        }
+    },
 
     changeLevel() {
         console.log('加载关卡:' + this.levelId);
-        this.levelProgress ++;
+
+        // 更新进度条
+        this.levelProgress++;
+
+        // 通关
+        // 测试模式：显示通关统计
+        // 练习模式：
+        if (this.levelProgress > this.levelLength) {
+            console.log('通关！！！');
+            this.showDialog(cc.dm.Dialog.done);
+            return;
+        }
+
 
         this.updateProgressBar();
-        this.updateScore(this.levelScore);
 
         this.loadLevelData(this.levelId);
         this.levelId += 1;
+
+
 
         // 改变图片组
         if (this.curPrefabs === this.ballPrefabs)
@@ -122,23 +150,115 @@ let gameJs = cc.Class({
         this.newGame();
     },
 
-    showDialog(){
-        if(this.dialog == null){
-            var dialog = cc.instantiate(this.dialogPrefab);
-            dialog.getComponent('dialog').gameJs = this;
+    showDialog(type) {
 
-            this.node.addChild(dialog);
-            this.dialog = dialog;
-            this.dialog.active = false;
+        // 方便停止计时器的update
+        cc.dm.curMode = cc.dm.Mode.menu;
+
+        this.clearBallMgrNodeChildren();
+        this.clearGoalNodeChildren();
+
+        switch (type) {
+            case cc.dm.Dialog.gameOver: {
+                if (this.gameOverDialog == null) {
+                    var dialog = cc.instantiate(this.dialogPrefabs[type]);
+                    dialog.getComponent('dialog').gameJs = this;
+                    dialog.getComponent('dialog').type = type;
+
+                    this.node.getChildByName('UI').addChild(dialog);
+                    this.gameOverDialog = dialog;
+                    this.gameOverDialog.active = false;
+                }
+                this.gameOverDialog.active = true;
+                break;
+            }
+            case cc.dm.Dialog.success: {
+                if (this.successDialog == null) {
+                    var dialog = cc.instantiate(this.dialogPrefabs[type]);
+                    dialog.getComponent('dialog').gameJs = this;
+                    dialog.getComponent('dialog').type = type;
+
+                    this.node.getChildByName('UI').addChild(dialog);
+                    this.successDialog = dialog;
+                    this.successDialog.active = false;
+                }
+                this.successDialog.active = true;
+                break;
+            }
+            case cc.dm.Dialog.done: {
+                if (this.doneDialog == null) {
+                    var dialog = cc.instantiate(this.dialogPrefabs[type]);
+                    dialog.getComponent('dialog').gameJs = this;
+                    dialog.getComponent('dialog').type = type;
+
+                    let minute = Math.floor(this.time / 60);
+                    let second = this.time - minute * 60;
+                    if (minute < 10)
+                        minute = '0' + minute;
+                    if (second < 10)
+                        second = '0' + second;
+
+                    dialog.getChildByName('time').getComponent(cc.Label).string
+                        = 'Time:' + minute + ':' + second;
+
+                    this.node.getChildByName('UI').addChild(dialog);
+                    this.doneDialog = dialog;
+                    this.doneDialog.active = false;
+                }
+                this.doneDialog.active = true;
+                break;
+            }
+            case cc.dm.Dialog.unlock: {
+                if (this.unlockDialog == null) {
+                    var dialog = cc.instantiate(this.dialogPrefabs[type]);
+                    dialog.getComponent('dialog').gameJs = this;
+                    dialog.getComponent('dialog').type = type;
+
+                    this.node.getChildByName('UI').addChild(dialog);
+                    this.unlockDialog = dialog;
+                    this.unlockDialog.active = false;
+                }
+                this.unlockDialog.active = true;
+                break;
+            }
+            default:
         }
-
-        this.dialog.active = true;
     },
 
-    hideDialog(){
-        if(this.dialog == null)
-            return;
-        this.dialog.active = false;
+    hideDialog(type) {
+        console.log('hide Dialog:' + type);
+
+        switch (type) {
+            case cc.dm.Dialog.gameOver: {
+                if (this.gameOverDialog == null) {
+                    return;
+                }
+                this.gameOverDialog.active = false;
+                break;
+            }
+            case cc.dm.Dialog.success: {
+                if (this.successDialog == null) {
+                    return;
+                }
+                this.successDialog.active = false;
+                break;
+            }
+            case cc.dm.Dialog.done: {
+                if (this.doneDialog == null) {
+                    return;
+                }
+                this.doneDialog.active = false;
+                break;
+            }
+            case cc.dm.Dialog.unlock: {
+                if (this.unlockDialog == null) {
+                    return;
+                }
+                this.unlockDialog.active = false;
+                break;
+            }
+            default:
+        }
     },
 
     initPosArray(w, h) {
@@ -175,7 +295,7 @@ let gameJs = cc.Class({
         this.spawnNewBalls(this.ballNumCounter);
     },
 
-    updateProgressBar(){
+    updateProgressBar() {
         this.progressBar.progress = this.levelProgress / this.levelLength;
         console.log('progress:' + this.progressBar.progress);
     },
@@ -184,13 +304,27 @@ let gameJs = cc.Class({
         if (this.ballNumCounter == this.ballNum &&
             this.goalNumCounter == this.goalNum &&
             this.repeatCounter == this.repeat) {
-            console.log('通关');
+            console.log('过关');
             console.log('##############');
 
-            // 干扰、目标、重复次数都达到最大时，开始下一关
-            // this.changeLevel();
-            this.showDialog();
+            if (cc.dm.curMode == cc.dm.Mode.exercise) {
+                // 练习模式积累分数，达到一定分数后解锁测试模式        
+                this.updateScore(this.levelScore);
+                if (cc.dm.levelData.getExamLocked() && this.score >= cc.dm.levelData.examMinScore) {
+                    cc.dm.levelData.setExamLocked(false);
 
+                    // 跳出“解锁测试模式”提示框(继续游戏/进入测试模式)
+                    this.showDialog(cc.dm.Dialog.unlock);
+                    // console.log('score:' + this.score +' examLocked:' + cc.dm.levelData.getExamLocked());
+                    return;
+                }
+
+                // 干扰、目标、重复次数都达到最大时，弹出选择框(继续游戏/返回主菜单)
+                this.showDialog(cc.dm.Dialog.success);
+            } else if (cc.dm.curMode == cc.dm.Mode.exam) {
+                // 测试模式直接进入下一关
+                this.changeLevel();
+            }
         } else if (this.ballNumCounter == this.ballNum &&
             this.goalNumCounter == this.goalNum) {
             console.log('ballNumCounter:(' + this.ballNumCounter + '/' + this.ballNum + ')');
@@ -318,11 +452,6 @@ let gameJs = cc.Class({
         //     }
         // }
     },
-
-    start() {
-
-    },
-
     getNewBallPosition() {
         // 格子
         let cellWidth = this.curPrefabs[0].data.width + 5;
@@ -348,29 +477,31 @@ let gameJs = cc.Class({
         return cc.p(randX, randY);
     },
     update(dt) {
-        this.timer += dt;
-        if (this.timer >= 1) {
-            this.timer = 0;
-            this.time++; // second
-            this.limitTime--;
+        if (cc.dm.curMode == cc.dm.Mode.exam) {
+            this.timer += dt;
+            if (this.timer >= 1) {
+                this.timer = 0;
+                this.time++; // second
+                this.limitTime--;
 
-            let minute = Math.floor(this.time / 60);
-            let second = this.time - minute * 60;
-            if (minute < 10)
-                minute = '0' + minute;
-            if (second < 10)
-                second = '0' + second;
-            this.timeLbl.string = 'Time:' + minute + ':' + second;
+                let minute = Math.floor(this.time / 60);
+                let second = this.time - minute * 60;
+                if (minute < 10)
+                    minute = '0' + minute;
+                if (second < 10)
+                    second = '0' + second;
+                this.timeLbl.string = 'Time:' + minute + ':' + second;
 
-            if (this.limitTime <= 0) {
-                this.gameOver();
-            } else {
-                this.limitTimeLbl.string = 'Limit Time:' + this.limitTime;
+                // if (this.limitTime <= 0) {
+                //     this.gameOver();
+                // } else {
+                //     this.limitTimeLbl.string = 'Limit Time:' + this.limitTime;
+                // }
             }
         }
     },
     gameOver() {
-        this.node.getChildByName('gameOver').active = true;
+        this.showDialog(cc.dm.Dialog.gameOver);
     },
 });
 module.export = gameJs;

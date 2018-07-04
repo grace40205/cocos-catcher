@@ -24,12 +24,30 @@ cc.Class({
     },
 
     onContinue(){
-        this.gameJs.hideDialog();
+        // 练习模式解锁测试模式 unlockDialog
+        // 练习模式过小关 succuessDialog
+
+        cc.dm.curMode = cc.dm.Mode.exercise;
+        this.gameJs.hideDialog(this.type);
         this.gameJs.changeLevel();
     },
 
-    onMenu(){
+    onMenu(){        
         cc.director.loadScene('Menu');
+    },
+
+    onExam(){
+        // 练习模式解锁测试模式 unlockDialog
+        cc.dm.curMode = cc.dm.Mode.exam;
+        cc.director.loadScene('Exercise');
+    },
+
+    onRestart(){
+        // 重新开始：
+        // 测试模式游戏失败 gameOverDialog
+        // 测试模式游戏通关 doneDialog
+        cc.dm.curMode = cc.dm.Mode.exam;
+        cc.director.loadScene('Exercise');
     },
 
     // update (dt) {},

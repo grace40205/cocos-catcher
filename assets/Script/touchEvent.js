@@ -77,14 +77,26 @@ cc.Class({
                     if(!correctHit){
                         console.log('hit the wrong ball');
 
-                        let wng = cc.instantiate(this.wngPrefab);
-                        ball.addChild(wng);
-
-                        this.gameJs.scheduleOnce(function(){
-                            console.log('test schedule...');
-                            this.newGame();
-                        },2);
-
+                        if(cc.dm.curMode == cc.dm.Mode.exercise)
+                        {
+                            // 练习模式:显示错误提示，2秒后重新开始此小关
+                            let wng = cc.instantiate(this.wngPrefab);
+                            ball.addChild(wng);
+    
+                            this.gameJs.scheduleOnce(function(){
+                                console.log('2 seconds:new game');
+                                this.newGame();
+                            },2);
+                        } else if(cc.dm.curMode == cc.dm.Mode.exam){
+                            // 测试模式：显示错误提示，2秒后弹出游戏结束对话框(重新开始/返回主菜单)
+                            let wng = cc.instantiate(this.wngPrefab);
+                            ball.addChild(wng);
+    
+                            this.gameJs.scheduleOnce(function(){
+                                console.log('2 seconds:game over');
+                                this.gameOver();
+                            },2);
+                        }
                         break;
                     }
                     // 目标ball全部找到,过小关
