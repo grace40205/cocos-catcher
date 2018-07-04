@@ -14,6 +14,11 @@ cc.Class({
     properties: {
         speedX: 0,
         speedY: 0,
+
+        areaH: 0,
+        areaW: 0,
+        areaX: 0,
+        areaY: 0,
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -25,14 +30,28 @@ cc.Class({
         // this.areaW = this.gameJs.areaW;
         // this.areaX = this.gameJs.areaX;
         // this.areaY = this.gameJs.areaY;
-        this.areaH = 400;
-        this.areaW = 800;
-        this.areaX = 80;
-        this.areaY = 20;
 
-        // 每个ball的速度随机
-        this.xSpeed = cc.randomMinus1To1() * this.speedX;
-        this.ySpeed = cc.randomMinus1To1() * this.speedY;
+        
+    },
+    
+    setSpeedOffset(offset) {
+        if (cc.dm.curMode == cc.dm.Mode.exercise ||
+            cc.dm.curMode == cc.dm.Mode.exam ||
+            cc.dm.curMode == cc.dm.Mode.demon) {
+            this.areaH = 400;
+            this.areaW = 800;
+            this.areaX = 80;
+            this.areaY = 20;
+            // 每个ball的速度随机
+            this.xSpeed = cc.randomMinus1To1() * this.speedX;
+            this.ySpeed = cc.randomMinus1To1() * this.speedY;
+        } else {
+            this.xSpeed = this.speedX;
+            this.ySpeed = this.speedY;
+        }
+        
+        this.xSpeed += offset;
+        this.ySpeed += offset;
     },
 
     start() {

@@ -64,19 +64,22 @@ cc.Class({
         
         var manager = cc.director.getCollisionManager();
         manager.enabled = true;
-        manager.enabledDebugDraw = true;
+        //smanager.enabledDebugDraw = true;
         //manager.enabledDrawBoundingBox = true;
    
-   
+        
         // 加载关卡数据
         cc.dm = {};
         cc.dm.levelData = require('LevelData');
         cc.dm.Mode = require('modeEnum');
         cc.dm.Dialog = require('dialogEnum');
+        cc.dm.lastTime = 0;
         this.examMinScore = cc.dm.levelData.examMinScore;
         // console.log('minScore:' + this.examMinScore);
-        this.examLocked = cc.dm.levelData.getExamLocked();    
+        this.examLocked = cc.dm.levelData.getExamLocked();            
         console.log('examLocked:' + this.examLocked);
+        
+        cc.dm.curMode = cc.dm.Mode.menu;
      },
    
 
