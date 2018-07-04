@@ -135,6 +135,8 @@ let DemonJs=cc.Class({
         this.tipNews.string='   ';
         demonFive.active=true;
         this.scheduleOnce(function() {
+
+            cc.dm.curMode = cc.dm.Mode.exercise;
             cc.director.loadScene('Exercise');
 
         },2);

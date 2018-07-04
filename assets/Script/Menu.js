@@ -52,7 +52,7 @@ cc.Class({
         
         var manager = cc.director.getCollisionManager();
         manager.enabled = true;
-        manager.enabledDebugDraw = true;
+        //smanager.enabledDebugDraw = true;
         //manager.enabledDrawBoundingBox = true;
    
    

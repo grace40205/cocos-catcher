@@ -23,6 +23,7 @@ cc.Class({
             default: null,
             type: cc.Prefab,
         },
+        ballFalse:cc.SpriteFrame,
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -59,8 +60,10 @@ cc.Class({
                             // ...
                             // goals[j].ball.height = 20;
                             // goals[j].ball.width = 20;
-                            let hited = cc.instantiate(this.rtPrefab);
-                            goals[j].ball.addChild(hited);
+                            // let hited = cc.instantiate(this.rtPrefab);
+                            // goals[j].ball.addChild(hited);
+                            goals[j].ball.active = false;
+                            ball.active = false;
 
                             goals[j].hited = true;
                             correctHit = true;
@@ -80,8 +83,9 @@ cc.Class({
                         if(cc.dm.curMode == cc.dm.Mode.exercise)
                         {
                             // 练习模式:显示错误提示，2秒后重新开始此小关
-                            let wng = cc.instantiate(this.wngPrefab);
-                            ball.addChild(wng);
+                            // let wng = cc.instantiate(this.wngPrefab);
+                            // ball.addChild(wng);
+                            ball.getComponent(cc.Sprite).spriteFrame = this.ballFalse;
     
                             this.gameJs.scheduleOnce(function(){
                                 console.log('2 seconds:new game');
@@ -89,8 +93,9 @@ cc.Class({
                             },2);
                         } else if(cc.dm.curMode == cc.dm.Mode.exam){
                             // 测试模式：显示错误提示，2秒后弹出游戏结束对话框(重新开始/返回主菜单)
-                            let wng = cc.instantiate(this.wngPrefab);
-                            ball.addChild(wng);
+                            // let wng = cc.instantiate(this.wngPrefab);
+                            // ball.addChild(wng);
+                            ball.getComponent(cc.Sprite).spriteFrame = this.ballFalse;
     
                             this.gameJs.scheduleOnce(function(){
                                 console.log('2 seconds:game over');
