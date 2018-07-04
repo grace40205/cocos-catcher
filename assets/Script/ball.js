@@ -31,7 +31,22 @@ cc.Class({
         // this.areaX = this.gameJs.areaX;
         // this.areaY = this.gameJs.areaY;
 
-        
+        if(this.inited == null){
+            if (cc.dm.curMode == cc.dm.Mode.exercise ||
+                cc.dm.curMode == cc.dm.Mode.exam ||
+                cc.dm.curMode == cc.dm.Mode.demon) {
+                this.areaH = 400;
+                this.areaW = 800;
+                this.areaX = 80;
+                this.areaY = 20;
+                // 每个ball的速度随机
+                this.xSpeed = cc.randomMinus1To1() * this.speedX;
+                this.ySpeed = cc.randomMinus1To1() * this.speedY;
+            } else {
+                this.xSpeed = this.speedX;
+                this.ySpeed = this.speedY;
+            }
+        }
     },
     
     setSpeedOffset(offset) {
@@ -49,9 +64,11 @@ cc.Class({
             this.xSpeed = this.speedX;
             this.ySpeed = this.speedY;
         }
-        
+
         this.xSpeed += offset;
         this.ySpeed += offset;
+
+        this.inited = true;
     },
 
     start() {
