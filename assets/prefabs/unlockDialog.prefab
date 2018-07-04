@@ -358,24 +358,12 @@
       "b": 255,
       "a": 255
     },
-    "_N$normalSprite": {
-      "__uuid__": "7a621818-5c30-41e6-9ea2-973b84f675f3"
-    },
-    "_N$pressedSprite": {
-      "__uuid__": "7a621818-5c30-41e6-9ea2-973b84f675f3"
-    },
-    "pressedSprite": {
-      "__uuid__": "7a621818-5c30-41e6-9ea2-973b84f675f3"
-    },
-    "_N$hoverSprite": {
-      "__uuid__": "7a621818-5c30-41e6-9ea2-973b84f675f3"
-    },
-    "hoverSprite": {
-      "__uuid__": "7a621818-5c30-41e6-9ea2-973b84f675f3"
-    },
-    "_N$disabledSprite": {
-      "__uuid__": "7a621818-5c30-41e6-9ea2-973b84f675f3"
-    },
+    "_N$normalSprite": null,
+    "_N$pressedSprite": null,
+    "pressedSprite": null,
+    "_N$hoverSprite": null,
+    "hoverSprite": null,
+    "_N$disabledSprite": null,
     "_N$target": {
       "__id__": 5
     }
@@ -723,7 +711,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 350,
+      "width": 300,
       "height": 50
     },
     "_rotationX": 0,
@@ -758,7 +746,7 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "解锁测试模式！",
+    "_N$string": "解锁测试模式",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",

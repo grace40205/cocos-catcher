@@ -33,6 +33,7 @@ cc.Class({
     },
 
     onMenu(){        
+        cc.dm.curMode = cc.dm.Mode.menu;
         cc.director.loadScene('Menu');
     },
 

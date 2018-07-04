@@ -358,24 +358,12 @@
       "b": 255,
       "a": 255
     },
-    "_N$normalSprite": {
-      "__uuid__": "7a621818-5c30-41e6-9ea2-973b84f675f3"
-    },
-    "_N$pressedSprite": {
-      "__uuid__": "7a621818-5c30-41e6-9ea2-973b84f675f3"
-    },
-    "pressedSprite": {
-      "__uuid__": "7a621818-5c30-41e6-9ea2-973b84f675f3"
-    },
-    "_N$hoverSprite": {
-      "__uuid__": "7a621818-5c30-41e6-9ea2-973b84f675f3"
-    },
-    "hoverSprite": {
-      "__uuid__": "7a621818-5c30-41e6-9ea2-973b84f675f3"
-    },
-    "_N$disabledSprite": {
-      "__uuid__": "7a621818-5c30-41e6-9ea2-973b84f675f3"
-    },
+    "_N$normalSprite": null,
+    "_N$pressedSprite": null,
+    "pressedSprite": null,
+    "_N$hoverSprite": null,
+    "hoverSprite": null,
+    "_N$disabledSprite": null,
     "_N$target": {
       "__id__": 5
     }
@@ -646,9 +634,7 @@
       "b": 255,
       "a": 255
     },
-    "_N$normalSprite": {
-      "__uuid__": "73111ae6-a72c-4930-a05c-da1f6745dbe9"
-    },
+    "_N$normalSprite": null,
     "_N$pressedSprite": {
       "__uuid__": "e9ec654c-97a2-4787-9325-e6a10375219a"
     },
@@ -723,7 +709,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 250,
+      "width": 200,
       "height": 50
     },
     "_rotationX": 0,
@@ -758,7 +744,7 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
-    "_N$string": "恭喜过关！",
+    "_N$string": "恭喜过关",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",

@@ -2,11 +2,19 @@ let gameJs = cc.Class({
     extends: cc.Component,
 
     properties: {
+        examBg:{
+            default:null,
+            type:cc.SpriteFrame,
+        },
         ballPrefabs: {
             default: [],
             type: cc.Prefab,
         },
         catPrefabs: {
+            default: [],
+            type: cc.Prefab,
+        },
+        rectPrefabs: {
             default: [],
             type: cc.Prefab,
         },
@@ -49,6 +57,7 @@ let gameJs = cc.Class({
         //manager.enabledDrawBoundingBox = true;
 
         // 初始化属性
+        this.lastTime = 0; // 测试模式：上次通关总时间
         this.time = 0; // 显示总时间
         // this.limitTime = 0; // 显示当前关卡倒计时
         this.timer = 0; // 一秒钟计时器
@@ -82,6 +91,8 @@ let gameJs = cc.Class({
 
         //this.levelId = cc.dm.currLevel;
         this.levelId = 1001;
+        this.lastTime = cc.dm.lastTime;
+
         this.changeLevel();
     },
 
@@ -108,12 +119,14 @@ let gameJs = cc.Class({
     start() {
         if (cc.dm.curMode == cc.dm.Mode.exercise) {
             console.log('timeLbl.enabled = false');
-            this.timeLbl.enabled = false;
+            this.timeLbl.enabled = false;            
         }
 
         if (cc.dm.curMode == cc.dm.Mode.exam) {
             console.log('scoreLbl.enbaled = false');
             this.scoreLbl.enabled = false;
+
+            this.node.getChildByName('background').getComponent(cc.Sprite).spriteFrame = this.examBg;
         }
     },
 
@@ -126,7 +139,7 @@ let gameJs = cc.Class({
         // 通关
         // 测试模式：显示通关统计
         // 练习模式：
-        if (this.levelProgress > this.levelLength) {
+        if (this.levelProgress > 1){//this.levelLength) {
             console.log('通关！！！');
             this.showDialog(cc.dm.Dialog.done);
             return;
@@ -139,12 +152,15 @@ let gameJs = cc.Class({
         this.levelId += 1;
 
 
-
         // 改变图片组
-        if (this.curPrefabs === this.ballPrefabs)
-            this.curPrefabs = this.catPrefabs;
-        else {
-            this.curPrefabs = this.ballPrefabs;
+        if(cc.dm.curMode == cc.dm.Mode.exercise){
+            if (this.curPrefabs === this.ballPrefabs)
+                this.curPrefabs = this.catPrefabs;
+            else {
+                this.curPrefabs = this.ballPrefabs;
+            }
+        } else if(cc.dm.curMode == cc.dm.Mode.exam){
+            this.curPrefabs = this.rectPrefabs;
         }
 
         this.newGame();
@@ -200,6 +216,18 @@ let gameJs = cc.Class({
 
                     dialog.getChildByName('time').getComponent(cc.Label).string
                         = 'Time:' + minute + ':' + second;
+                   
+                    let upgrade = '';
+                    if(this.time > this.lastTime){
+                        dialog.color = cc.Color.RED;
+                        upgrade += '+';
+                    } else {
+                        dialog.color = cc.Color.GREEN;
+                        upgrade += '-';
+                    }
+                    upgrade += this.time - this.lastTime;
+                    dialog.getChildByName('upgrade').getComponent(cc.Label).string = upgrade + 's';
+                    cc.dm.lastTime = this.time;
 
                     this.node.getChildByName('UI').addChild(dialog);
                     this.doneDialog = dialog;
